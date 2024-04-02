@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\GymMembers;
+use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 class GymCheckIns extends Model
 {
@@ -17,11 +18,11 @@ class GymCheckIns extends Model
         'check_in_datetime'
     ];
     
-    public function member()
+    public function gym_members()
     {
         return $this->belongsTo(GymMembers::class, 'gym_members_id');
     }
-
+    
 }
 
 

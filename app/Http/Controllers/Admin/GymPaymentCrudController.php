@@ -45,7 +45,7 @@ class GymPaymentCrudController extends CrudController
             'name' => 'gym_members_id',
             'label' => 'Member Full Name',
             'type' => 'select',
-            'entity' => 'member',
+            'entity' => 'gym_members',
             'attribute' => 'fullname',
         ]);
     
@@ -74,6 +74,7 @@ class GymPaymentCrudController extends CrudController
             'type' => 'enum',
             'options' => [
                 'monthly' => 'Monthly',
+                'session' => 'Session',
                 'bi_monthly' => 'bi-Monthly',
                 '6_months' => '6 Months',
                 'annual' => 'Annual',
@@ -100,7 +101,7 @@ class GymPaymentCrudController extends CrudController
             'name' => 'gym_members_id',
             'label' => 'Member Full Name',
             'type' => 'select',
-            'entity' => 'member',
+            'entity' => 'gym_members',
             'attribute' => 'fullname',
         ]);
 
@@ -137,6 +138,7 @@ class GymPaymentCrudController extends CrudController
             'type' => 'enum',
             'options' => [
                 'monthly' => 'Monthly',
+                'session' => 'Session',
                 'bi_monthly' => 'bi-Monthly',
                 '6_months' => '6 Months',
                 'annual' => 'Annual',
@@ -157,6 +159,8 @@ class GymPaymentCrudController extends CrudController
      * @see https://backpackforlaravel.com/docs/crud-operation-update
      * @return void
      */
+
+        
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();

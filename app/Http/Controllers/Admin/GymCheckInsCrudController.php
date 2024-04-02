@@ -76,4 +76,7 @@ class GymCheckInsCrudController extends CrudController
     {
         $this->setupCreateOperation();
     }
+
+    
+
 }

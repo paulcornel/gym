@@ -30,7 +30,7 @@ class GymCheckInsRequest extends FormRequest
     }
 
     /**
-     * Get the validation attributes that apply to the request.
+     * Get the validationz attributes that apply to the request.
      *
      * @return array
      */

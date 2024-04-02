@@ -15,6 +15,7 @@ class GymPayment extends Model
     use HasFactory;
 
     protected $table = 'gym_payment';
+
     protected $fillable = [
         'gym_members_id',
         'amount',
@@ -22,6 +23,11 @@ class GymPayment extends Model
         'transaction_code',
         'payment_for'
     ];
+
+    public function gym_members()
+    {
+        return $this->belongsTo(GymMembers::class, 'gym_members_id');
+    }
 
 protected static function booted()
 {
@@ -34,7 +40,7 @@ protected static function booted()
         if ($payment->payment_for === 'annual') {
             $endDate = $startDate->copy()->addYear();
 
-            $payment->member->memberships()->updateOrCreate(
+            $payment->gym_members->memberships()->updateOrCreate(
                 ['gym_members_id' => $payment->gym_members_id], // Assuming this identifies the record uniquely
                 
                    [ 'annual_start_date' => $startDate,
@@ -50,6 +56,9 @@ protected static function booted()
                 case 'monthly':
                     $endDate = $startDate->copy()->addMonth();
                     break;
+                case 'session':
+                        $endDate = $startDate->copy()->addMonth();
+                        break;
                 case 'bi_monthly':
                     $endDate = $startDate->copy()->addMonths(2);
                     break;
@@ -63,7 +72,7 @@ protected static function booted()
             }
 
             // Update or create a membership record with appropriate dates and status
-            $payment->member->memberships()->updateOrCreate(
+            $payment->gym_members->memberships()->updateOrCreate(
                 ['gym_members_id' => $payment->gym_members_id],
                 
                 [    'subscription_start_date' => $startDate,
@@ -76,9 +85,4 @@ protected static function booted()
     });
 }
 
-    
-    public function member()
-    {
-        return $this->belongsTo(GymMembers::class, 'gym_members_id');
-    }
 }

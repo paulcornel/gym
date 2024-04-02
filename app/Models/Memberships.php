@@ -37,7 +37,7 @@ class Memberships extends Model
     public function gymMember()
     {
         return $this->belongsTo(GymMembers::class, 'gym_members_id'); // specify the foreign key
-    }
+    } 
 }
 
 

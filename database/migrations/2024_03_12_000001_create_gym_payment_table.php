@@ -10,15 +10,15 @@ class CreateGymPaymentTable extends Migration
     {
         Schema::create('gym_payment', function (Blueprint $table) {
             $table->id();
-            // $table->unsignedBigInteger('gym_members_id');
-            $table->foreignId('gym_members_id')->constrained('gym_members')->onDelete('cascade');
+            $table->unsignedBigInteger('gym_members_id');
             $table->decimal('amount', 8, 2);
             $table->enum('type',['cash','gcash'])->default('cash');
             $table->string('transaction_code')->nullable();
-            $table->enum('payment_for',['monthly','bi_monthly','6_months', 'annual', '1_year'])-> default('annual');
+            $table->enum('payment_for',['monthly', 'session', 'bi_monthly','6_months', 'annual', '1_year'])-> default('annual');
             $table->timestamps();
-        });
 
+            $table->foreign('gym_members_id')->references('id')->on('gym_members')->onDelete('cascade');
+        });
     }
 
     public function down()

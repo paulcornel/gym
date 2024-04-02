@@ -18,6 +18,12 @@
 </section>
 <div class="row">
     <div class="col-md-8 bold-labels">
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
         @if ($errors->any())
             <div class="alert alert-danger pb-0">
                 <ul class="list-unstyled">
@@ -63,6 +69,7 @@
                         <select name="payment_for" class="form-control @error('payment_for') is-invalid @enderror">
                             <option value="">Select Payment For</option>
                             <option value="monthly">Monthly</option>
+                            <option value="session">Session</option>
                             <option value="bi_monthly">bi monthly</option>
                             <option value="6_months">6 months</option>
                             <option value="annual">annual</option>
@@ -107,3 +114,4 @@
         });
     </script>
 @endpush
+

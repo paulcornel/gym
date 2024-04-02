@@ -10,7 +10,7 @@ return [
     'contentClass' => 'col-md-12 bold-labels',
 
     // When using tabbed forms (create & update), what kind of tabs would you like?
-    'tabsType' => 'horizontal', //options: horizontal, vertical
+    'tabsType' => 'horizonta', //options: horizontal, vertical
 
     // How would you like the validation errors to be shown?
     'groupedErrors' => true,

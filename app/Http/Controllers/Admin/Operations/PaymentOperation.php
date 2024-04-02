@@ -30,35 +30,37 @@ trait PaymentOperation
         $validator = Validator::make($request->all(), [
             'amount' => 'required|numeric',
             'type' => 'required|string',
-            'transaction_code' => $request->type === 'Gcash' ? 'required|string' : 'nullable', // Transaction code required only if payment type is 'Gcash'
+            'transaction_code' => $request->type === 'Gcash' ? 'required|string' : 'nullable',
             'payment_for' => 'required|string',
         ]);
-
+    
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-
+    
         try {
             $entry = $this->crud->getCurrentEntry();
-            $entry->payments()->updateOrCreate([
+            
+            // Set the payment type based on the selected option
+            $type = $request->input('type');
+            if ($type === 'Gcash') {
+                $transactionCode = $request->input('transaction_code');
+            } else {
+                $transactionCode = null;
+            }
+    
+            $entry->gym_payment()->updateOrCreate([
                 'amount' => $request->input('amount'),
-                'gym_members_id' => $entry->id,
+                'type' => $type, // Set the payment type
+                'transaction_code' => $transactionCode, // Set the transaction code based on the payment type
                 'payment_for' => $request->input('payment_for'),
-                'transaction_code' => $request->get('transaction_code'),
             ]);
-            // $entry->amount = $request->input('amount');
-            // $entry->type = $request->input('type');
-            // $entry->transaction_code = $request->input('transaction_code');
-            // $entry->payment_for = $request->input('payment_for');
-            // $entry->member_id = $id;
-            // $entry->save();
-
+    
             return redirect()->back()->with('success', 'Payment added successfully!');
-        } catch (Exception $e) {
+            } catch (Exception $e) {
             return redirect()->back()->withInput()->withErrors(['error' => $e->getMessage()]);
         }
     }
-
     protected function setupPaymentDefaults()
     {
         CRUD::allowAccess('payment');
@@ -89,4 +91,6 @@ trait PaymentOperation
 
         return view('crud::operations.payment_form', $data);
     }
+
+    
 }

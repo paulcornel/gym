@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\GymCheckIns;
 use App\Models\Memberships;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
@@ -33,7 +34,7 @@ class GymMembers extends Model
         });
     }
 
-    public function getFullNameAttribute()
+    public function getFullnameAttribute()
     {
         return $this->first_name . ' ' . $this->last_name;
     }
@@ -43,10 +44,7 @@ class GymMembers extends Model
     //     return $this->memberships->annual;
     // }
 
-    public function payments()
-    {
-        return $this->hasMany(GymPayment::class, 'gym_members_id');
-    }
+    
 
     public function checkins()
     {
@@ -56,6 +54,16 @@ class GymMembers extends Model
     public function memberships()
     {
         return $this->hasOne(Memberships::class, 'gym_members_id');
+    }
+
+    public function gym_payment()
+    {
+        return $this->hasMany(GymPayment::class, 'gym_members_id');
+    }
+
+    public function scopeLatestFirst(Builder $query)
+    {
+        return $query->orderBy('created_at', 'desc');
     }
 }   
 

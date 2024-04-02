@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('gym_check_ins', function (Blueprint $table) {
             $table->id(); // Auto-incremental primary key
-            $table->foreignId('gym_members_id')->constrained('gym_members');
+            $table->unsignedBigInteger('gym_members_id');
             $table->timestamp('check_in_datetime');
             $table->timestamps(); // Created_at and updated_at timestamps
+
+            $table->foreign('gym_members_id')->references('id')->on('gym_members')->onDelete('cascade');
         });
     }
 
